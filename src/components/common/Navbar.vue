@@ -171,7 +171,7 @@ const toggleUserMenu = (event: Event) => {
               <div class="relative">
                 <Button
                   @click="toggleVideosMenu"
-                  class="!bg-transparent !border-0 text-gray-700 hover:!text-purple-600 hover:!bg-purple-50 !font-medium !transition-all !duration-200 !rounded-lg !px-4 !py-2"
+                  class="!bg-transparent !border-0 !text-gray-700 hover:!text-purple-600 hover:!bg-purple-50 !font-medium !transition-all !duration-200 !rounded-lg !px-4 !py-2"
                   aria-haspopup="true"
                   aria-controls="videos_menu"
                 >
@@ -192,7 +192,7 @@ const toggleUserMenu = (event: Event) => {
               <div class="relative">
                 <Button
                   @click="toggleArticlesMenu"
-                  class="!bg-transparent !border-0 text-gray-700 hover:!text-purple-600 hover:!bg-purple-50 !font-medium !transition-all !duration-200 !rounded-lg !px-4 !py-2"
+                  class="!bg-transparent !border-0 !text-gray-700 hover:!text-purple-600 hover:!bg-purple-50 !font-medium !transition-all !duration-200 !rounded-lg !px-4 !py-2"
                   aria-haspopup="true"
                   aria-controls="articles_menu"
                 >
@@ -233,7 +233,7 @@ const toggleUserMenu = (event: Event) => {
                 class="hidden md:flex items-center gap-2 bg-gradient-to-r from-purple-100 to-pink-100 px-4 py-2 rounded-full"
               >
                 <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                <span class="text-gray-700 text-sm font-medium">
+                <span class="!text-gray-700 text-sm font-medium">
                   Hi, <span class="text-purple-600 font-semibold">{{ auth.user?.username }}</span>
                 </span>
               </div>
@@ -288,7 +288,7 @@ const toggleUserMenu = (event: Event) => {
             <div class="flex items-center gap-6">
               <router-link
                 to="/"
-                class="relative text-gray-700 hover:text-purple-600 font-medium transition-all duration-200 px-3 py-2 rounded-lg hover:bg-purple-50 group"
+                class="relative !text-gray-700 hover:text-purple-600 font-medium transition-all duration-200 px-3 py-2 rounded-lg hover:bg-purple-50 group"
               >
                 <i
                   class="pi pi-home mr-2 group-hover:scale-110 transition-transform duration-200"
@@ -301,7 +301,7 @@ const toggleUserMenu = (event: Event) => {
 
               <router-link
                 to="/register"
-                class="relative text-gray-700 hover:text-purple-600 font-medium transition-all duration-200 px-3 py-2 rounded-lg hover:bg-purple-50 group"
+                class="relative !text-gray-700 hover:text-purple-600 font-medium transition-all duration-200 px-3 py-2 rounded-lg hover:bg-purple-50 group"
               >
                 <i
                   class="pi pi-user-plus mr-2 group-hover:scale-110 transition-transform duration-200"
@@ -328,7 +328,7 @@ const toggleUserMenu = (event: Event) => {
     <!-- Mobile Menu Button (for future mobile implementation) -->
     <div class="md:hidden absolute right-4 top-4">
       <Button
-        class="!bg-transparent !border-0 text-gray-700 hover:!text-purple-600 !p-2"
+        class="!bg-transparent !border-0 !text-gray-700 hover:!text-purple-600 !p-2"
         icon="pi pi-bars"
       />
     </div>
