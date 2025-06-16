@@ -35,13 +35,10 @@ onBeforeUnmount(() => {
   progressStore.saveProgress(articleId, window.scrollY)
 })
 
-// Restore progress on mount
 onMounted(() => {
+  if (!auth.isLoggedIn) router.push('/')
   const saved = progressStore.getProgress(articleId)
   window.scrollTo(0, saved)
-})
-
-onMounted(() => {
   loadArticle()
   setupScrollProgress()
 })

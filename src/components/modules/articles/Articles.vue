@@ -16,6 +16,7 @@ import Badge from 'primevue/badge'
 import Paginator from 'primevue/paginator'
 
 onMounted(() => {
+  if (!auth.isLoggedIn) router.push('/')
   loadArticles()
 })
 
@@ -135,7 +136,7 @@ const readArticle = (article: Article) => {
     })
     return
   }
-  router.push(`/articles/${article.id}`)
+  router.push(`/articles/view/${article.id}`)
 }
 
 const formatDate = (dateString: string) => {
@@ -398,7 +399,7 @@ let searchTimeout: ReturnType<typeof setTimeout>
                 <!-- Read Button for Accessible Content -->
                 <div
                   v-else
-                  class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center"
+                  class="absolute inset-0 bg-none bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center"
                 >
                   <div
                     class="w-16 h-16 bg-white bg-opacity-90 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"

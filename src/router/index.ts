@@ -25,16 +25,6 @@ const routes: Readonly<RouteRecordRaw[]> = [
     component: (): Promise<Component> => import('../views/UpgradeView.vue'),
   },
   {
-    path: '/profile',
-    name: 'profile',
-    component: (): Promise<Component> => import('../views/AboutView.vue'),
-  },
-  {
-    path: '/pricing',
-    name: 'pricing',
-    component: (): Promise<Component> => import('../views/AboutView.vue'),
-  },
-  {
     path: '/login',
     name: 'login',
     component: (): Promise<Component> => import('../views/LoginView.vue'),
@@ -50,7 +40,7 @@ const routes: Readonly<RouteRecordRaw[]> = [
     component: (): Promise<Component> => import('../views/ArticlesView.vue'),
   },
   {
-    path: '/articles/:id',
+    path: '/articles/view/:id',
     name: 'article-detail',
     component: () => import('../views/ArticlesDetailView.vue'),
     props: true,
@@ -61,7 +51,7 @@ const routes: Readonly<RouteRecordRaw[]> = [
     component: (): Promise<Component> => import('../views/VideosView.vue'),
   },
   {
-    path: '/videos/:id',
+    path: '/videos/view/:id',
     name: 'video-detail',
     component: () => import('../views/VideosDetailView.vue'),
     props: true,
