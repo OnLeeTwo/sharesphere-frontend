@@ -25,11 +25,11 @@ const toast = useToast()
 const auth = useAuthStore()
 
 const sortOptions = [
-  { label: 'Newest First', field: 'created_at', order: 'desc' },
-  { label: 'Oldest First', field: 'created_at', order: 'asc' },
-  { label: 'Most Viewed', field: 'views', order: 'desc' },
-  { label: 'Title A-Z', field: 'title', order: 'asc' },
-  { label: 'Title Z-A', field: 'title', order: 'desc' },
+  { label: 'Newest First', value: { field: 'created_at', order: 'desc' } },
+  { label: 'Oldest First', value: { field: 'created_at', order: 'asc' } },
+  { label: 'Most Viewed', value: { field: 'views', order: 'desc' } },
+  { label: 'Title A-Z', value: { field: 'title', order: 'asc' } },
+  { label: 'Title Z-A', value: { field: 'title', order: 'desc' } },
 ]
 
 const accessTierOptions = [
@@ -47,7 +47,7 @@ const viewOptions = [
 const videos = ref<Video[]>([])
 const loading = ref(false)
 const searchQuery = ref('')
-const selectedSort = ref(sortOptions[0])
+const selectedSort = ref({ field: 'created_at', order: 'desc' })
 const accessTierFilter = ref('all')
 const currentPage = ref(1)
 const totalRecords = ref(0)
