@@ -27,6 +27,7 @@ const videoPlayer = ref<HTMLVideoElement>()
 const userTier = computed(() => auth.userTier || 'free')
 
 onMounted(() => {
+  if (!auth.isLoggedIn) router.push('/')
   loadVideo()
   loadRelatedVideos()
 })

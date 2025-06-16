@@ -25,17 +25,17 @@ const logout = () => {
 
 // Computed property for tier styling
 const tierConfig = computed(() => {
-  const tier = auth.user?.tier || 'Free'
+  const tier = auth.user?.tier || 'free'
 
   switch (tier) {
-    case 'Premium':
+    case 'premium':
       return {
         label: 'Premium',
         class: 'bg-gradient-to-r from-yellow-400 to-orange-500 text-white',
         icon: 'pi pi-crown',
         badgeClass: 'bg-yellow-500',
       }
-    case 'Basic':
+    case 'basic':
       return {
         label: 'Basic',
         class: 'bg-gradient-to-r from-blue-400 to-blue-600 text-white',
