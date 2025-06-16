@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router'
 import Button from 'primevue/button'
 import Avatar from 'primevue/avatar'
 import Menu from 'primevue/menu'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 
 onMounted(() => {
   if (!auth.user?.avatar) {
@@ -22,6 +22,35 @@ const logout = () => {
   auth.logout()
   router.push('/login')
 }
+
+// Computed property for tier styling
+const tierConfig = computed(() => {
+  const tier = auth.user?.tier || 'Free'
+
+  switch (tier) {
+    case 'Premium':
+      return {
+        label: 'Premium',
+        class: 'bg-gradient-to-r from-yellow-400 to-orange-500 text-white',
+        icon: 'pi pi-crown',
+        badgeClass: 'bg-yellow-500',
+      }
+    case 'Basic':
+      return {
+        label: 'Basic',
+        class: 'bg-gradient-to-r from-blue-400 to-blue-600 text-white',
+        icon: 'pi pi-star',
+        badgeClass: 'bg-blue-500',
+      }
+    default:
+      return {
+        label: 'Free',
+        class: 'bg-gradient-to-r from-gray-400 to-gray-600 text-white',
+        icon: 'pi pi-user',
+        badgeClass: 'bg-gray-500',
+      }
+  }
+})
 
 const videosMenuItems = ref([
   {
@@ -87,6 +116,11 @@ const userMenuItems = ref([
     command: () => router.push('/settings'),
   },
   {
+    label: 'Subscription',
+    icon: 'pi pi-credit-card',
+    command: () => router.push('/subscription'),
+  },
+  {
     separator: true,
   },
   {
@@ -137,7 +171,7 @@ const toggleUserMenu = (event: Event) => {
               <div class="relative">
                 <Button
                   @click="toggleVideosMenu"
-                  class="!bg-transparent !border-0 !text-gray-700 hover:!text-purple-600 hover:!bg-purple-50 !font-medium !transition-all !duration-200 !rounded-lg !px-4 !py-2"
+                  class="!bg-transparent !border-0 text-gray-700 hover:!text-purple-600 hover:!bg-purple-50 !font-medium !transition-all !duration-200 !rounded-lg !px-4 !py-2"
                   aria-haspopup="true"
                   aria-controls="videos_menu"
                 >
@@ -158,7 +192,7 @@ const toggleUserMenu = (event: Event) => {
               <div class="relative">
                 <Button
                   @click="toggleArticlesMenu"
-                  class="!bg-transparent !border-0 !text-gray-700 hover:!text-purple-600 hover:!bg-purple-50 !font-medium !transition-all !duration-200 !rounded-lg !px-4 !py-2"
+                  class="!bg-transparent !border-0 text-gray-700 hover:!text-purple-600 hover:!bg-purple-50 !font-medium !transition-all !duration-200 !rounded-lg !px-4 !py-2"
                   aria-haspopup="true"
                   aria-controls="articles_menu"
                 >
@@ -178,6 +212,22 @@ const toggleUserMenu = (event: Event) => {
 
             <!-- User Section -->
             <div class="flex items-center gap-4 pl-6 border-l border-purple-200">
+              <!-- Tier Badge -->
+              <div class="hidden md:flex items-center">
+                <div
+                  :class="[
+                    'px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer',
+                    tierConfig.class,
+                  ]"
+                  @click="router.push('/subscription')"
+                  title="Click to manage subscription"
+                >
+                  <i :class="tierConfig.icon" class="text-xs"></i>
+                  <span>{{ tierConfig.label }}</span>
+                  <i class="pi pi-external-link text-xs opacity-70"></i>
+                </div>
+              </div>
+
               <!-- Welcome Message with Animation -->
               <div
                 class="hidden md:flex items-center gap-2 bg-gradient-to-r from-purple-100 to-pink-100 px-4 py-2 rounded-full"
@@ -211,6 +261,15 @@ const toggleUserMenu = (event: Event) => {
                       size="normal"
                       class="!w-10 !h-10 !bg-gradient-to-br !from-purple-500 !to-pink-500 !text-white border-2 border-purple-200 shadow-md hover:shadow-lg transition-shadow duration-200"
                     />
+                    <!-- Tier indicator badge on avatar -->
+                    <div
+                      :class="[
+                        'absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center text-white text-xs',
+                        tierConfig.badgeClass,
+                      ]"
+                    >
+                      <i :class="tierConfig.icon" class="text-xs"></i>
+                    </div>
                   </div>
                 </Button>
                 <Menu
@@ -269,7 +328,7 @@ const toggleUserMenu = (event: Event) => {
     <!-- Mobile Menu Button (for future mobile implementation) -->
     <div class="md:hidden absolute right-4 top-4">
       <Button
-        class="!bg-transparent !border-0 !text-gray-700 hover:!text-purple-600 !p-2"
+        class="!bg-transparent !border-0 text-gray-700 hover:!text-purple-600 !p-2"
         icon="pi pi-bars"
       />
     </div>
@@ -284,7 +343,7 @@ const toggleUserMenu = (event: Event) => {
 }
 
 :deep(.p-menu .p-menuitem-link) {
-  @apply !text-gray-700 hover:!text-purple-600 hover:!bg-purple-50 !transition-all !duration-200 !rounded-lg !mx-2 !my-1;
+  @apply text-gray-700 hover:!text-purple-600 hover:!bg-purple-50 !transition-all !duration-200 !rounded-lg !mx-2 !my-1;
 }
 
 :deep(.p-menu .p-menuitem-icon) {
@@ -309,5 +368,11 @@ const toggleUserMenu = (event: Event) => {
 
 :deep(.p-menu) {
   animation: slideIn 0.2s ease-out;
+}
+
+/* Tier badge hover effects */
+.tier-badge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 </style>
