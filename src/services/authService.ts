@@ -1,7 +1,8 @@
 import { AuthResponse, LoginPayload, OAuthPayload, RegisterPayload } from '@/utils/type'
 import api from '@/utils/axios'
 
-const API_BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000/api/auth'
+const API_BASE_URL =
+  (import.meta.env.VITE_API_URL?.replace(/\/$/, '') ?? 'http://localhost:3000/api') + '/auth'
 
 const register = async (payload: RegisterPayload): Promise<AuthResponse> => {
   const { data } = await api.post(`${API_BASE_URL}/register`, payload)
