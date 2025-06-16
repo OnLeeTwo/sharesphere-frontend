@@ -19,5 +19,5 @@ export const useProgressStore = defineStore('progress', {
     },
   },
 
-  persist: true, // Requires pinia-plugin-persistedstate
+  persist: true,
 })

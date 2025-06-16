@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { format } from 'date-fns'
+import { useRouter } from 'vue-router'
 import Card from 'primevue/card'
 import Button from 'primevue/button'
-import { format } from 'date-fns'
+
+const router = useRouter()
 
 const props = defineProps<{
   article: {
@@ -54,7 +57,13 @@ const formattedDate = computed(() => {
         <p class="text-sm text-gray-700">
           This article is for <strong>{{ article.access_tier }}</strong> users
         </p>
-        <Button label="Upgrade Tier" icon="pi pi-arrow-up" class="mt-3" severity="secondary" />
+        <Button
+          @click="router.push('/upgrade')"
+          label="Upgrade Tier"
+          icon="pi pi-arrow-up"
+          class="mt-3"
+          severity="secondary"
+        />
       </div>
 
       <div class="p-4 space-y-2">

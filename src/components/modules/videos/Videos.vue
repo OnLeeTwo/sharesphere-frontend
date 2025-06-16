@@ -24,11 +24,30 @@ const router = useRouter()
 const toast = useToast()
 const auth = useAuthStore()
 
+const sortOptions = [
+  { label: 'Newest First', field: 'created_at', order: 'desc' },
+  { label: 'Oldest First', field: 'created_at', order: 'asc' },
+  { label: 'Most Viewed', field: 'views', order: 'desc' },
+  { label: 'Title A-Z', field: 'title', order: 'asc' },
+  { label: 'Title Z-A', field: 'title', order: 'desc' },
+]
+
+const accessTierOptions = [
+  { label: 'All Videos', value: 'all' },
+  { label: 'Free', value: 'free' },
+  { label: 'Basic', value: 'basic' },
+  { label: 'Premium', value: 'premium' },
+]
+
+const viewOptions = [
+  { label: 'Grid', value: 'grid', icon: 'pi pi-th-large' },
+  { label: 'List', value: 'list', icon: 'pi pi-list' },
+]
+
 const videos = ref<Video[]>([])
 const loading = ref(false)
 const searchQuery = ref('')
-const sortBy = ref('created_at')
-const sortOrder = ref('desc')
+const selectedSort = ref(sortOptions[0])
 const accessTierFilter = ref('all')
 const currentPage = ref(1)
 const totalRecords = ref(0)
@@ -58,35 +77,14 @@ const fetchVideos = async (params: VideoQueryParams) => {
   }
 }
 
-// Computed properties
-const sortOptions = [
-  { label: 'Newest First', value: 'created_at' },
-  { label: 'Oldest First', value: 'created_at_asc' },
-  { label: 'Most Viewed', value: 'views' },
-  { label: 'Title A-Z', value: 'title' },
-  { label: 'Title Z-A', value: 'title_desc' },
-]
-
-const accessTierOptions = [
-  { label: 'All Videos', value: 'all' },
-  { label: 'Free', value: 'free' },
-  { label: 'Basic', value: 'basic' },
-  { label: 'Premium', value: 'premium' },
-]
-
-const viewOptions = [
-  { label: 'Grid', value: 'grid', icon: 'pi pi-th-large' },
-  { label: 'List', value: 'list', icon: 'pi pi-list' },
-]
-
 // Methods
 const loadVideos = () => {
   const params = {
     page: currentPage.value,
     per_page: perPage.value,
     search: searchQuery.value || undefined,
-    sort_by: sortBy.value,
-    sort_order: sortOrder.value,
+    sort_by: selectedSort.value.field,
+    sort_order: selectedSort.value.order,
     access_tier: accessTierFilter.value !== 'all' ? accessTierFilter.value : undefined,
   }
   fetchVideos(params)
@@ -251,7 +249,7 @@ let searchTimeout: ReturnType<typeof setTimeout>
           <!-- Filters -->
           <div class="flex items-center gap-4">
             <Dropdown
-              v-model="sortBy"
+              v-model="selectedSort"
               :options="sortOptions"
               optionLabel="label"
               optionValue="value"

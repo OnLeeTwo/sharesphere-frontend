@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 import Card from 'primevue/card'
 import Button from 'primevue/button'
+
+const router = useRouter()
 </script>
 
 <template>
@@ -22,21 +24,21 @@ import Button from 'primevue/button'
           <template #title>Free Plan</template>
           <template #content>
             <p>Enjoy access to free content with basic community features.</p>
-            <Button label="Get Started" class="mt-4 w-full" />
+            <Button @click="router.push('/register')" label="Get Started" class="mt-4 w-full" />
           </template>
         </Card>
         <Card class="text-center shadow-xl border-blue-400 border-2">
           <template #title>Basic Plan</template>
           <template #content>
             <p>Unlock extra features and support creators directly.</p>
-            <Button label="Upgrade" class="mt-4 w-full" />
+            <Button @click="router.push('/upgrade')" label="Upgrade" class="mt-4 w-full" />
           </template>
         </Card>
         <Card class="text-center shadow-xl border-purple-400 border-2">
           <template #title>Premium Plan</template>
           <template #content>
             <p>Get the full experience, early access, and exclusive content.</p>
-            <Button label="Go Premium" class="mt-4 w-full" />
+            <Button @click="router.push('/upgrade')" label="Go Premium" class="mt-4 w-full" />
           </template>
         </Card>
       </div>

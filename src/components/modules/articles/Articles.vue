@@ -24,11 +24,42 @@ const router = useRouter()
 const toast = useToast()
 const auth = useAuthStore()
 
+const sortOptions = [
+  { label: 'Newest First', field: 'created_at', order: 'desc' },
+  { label: 'Oldest First', field: 'created_at', order: 'asc' },
+  { label: 'Most Viewed', field: 'views', order: 'desc' },
+  { label: 'Title A-Z', field: 'title', order: 'asc' },
+  { label: 'Title Z-A', field: 'title', order: 'desc' },
+]
+
+const accessTierOptions = [
+  { label: 'All Articles', value: 'all' },
+  { label: 'Free', value: 'free' },
+  { label: 'Basic', value: 'basic' },
+  { label: 'Premium', value: 'premium' },
+]
+
+//Mock dropdwon options
+const categoryOptions = [
+  { label: 'Database', value: 'Database' },
+  { label: 'Frontend', value: 'Frontend' },
+  { label: 'Design', value: 'Design' },
+  { label: 'Programming', value: 'Programming' },
+  { label: 'Security', value: 'Security' },
+  { label: 'Tools', value: 'Tools' },
+  { label: 'Backend', value: 'Backend' },
+  { label: 'DevOps', value: 'DevOps' },
+]
+
+const viewOptions = [
+  { label: 'Grid', value: 'grid', icon: 'pi pi-th-large' },
+  { label: 'List', value: 'list', icon: 'pi pi-list' },
+]
+
 const articles = ref<Article[]>([])
 const loading = ref(false)
 const searchQuery = ref('')
-const sortBy = ref('created_at')
-const sortOrder = ref('desc')
+const selectedSort = ref(sortOptions[0])
 const accessTierFilter = ref('all')
 const categoryFilter = ref('all')
 const currentPage = ref(1)
@@ -38,7 +69,6 @@ const selectedView = ref('grid')
 
 const userTier = computed(() => auth.userTier || 'free')
 
-// Mock API function for articles
 const fetchArticles = async (params: ArticleQueryParams) => {
   loading.value = true
   try {
@@ -59,38 +89,6 @@ const fetchArticles = async (params: ArticleQueryParams) => {
     loading.value = false
   }
 }
-// Computed properties
-const sortOptions = [
-  { label: 'Newest First', value: 'created_at' },
-  { label: 'Oldest First', value: 'created_at_asc' },
-  { label: 'Most Read', value: 'views' },
-  { label: 'Title A-Z', value: 'title' },
-  { label: 'Title Z-A', value: 'title_desc' },
-]
-
-const accessTierOptions = [
-  { label: 'All Articles', value: 'all' },
-  { label: 'Free', value: 'free' },
-  { label: 'Basic', value: 'basic' },
-  { label: 'Premium', value: 'premium' },
-]
-
-const categoryOptions = [
-  { label: 'All Categories', value: 'all' },
-  { label: 'Technology', value: 'Technology' },
-  { label: 'Health', value: 'Health' },
-  { label: 'Business', value: 'Business' },
-  { label: 'Travel', value: 'Travel' },
-  { label: 'Lifestyle', value: 'Lifestyle' },
-  { label: 'Education', value: 'Education' },
-  { label: 'Science', value: 'Science' },
-  { label: 'Arts', value: 'Arts' },
-]
-
-const viewOptions = [
-  { label: 'Grid', value: 'grid', icon: 'pi pi-th-large' },
-  { label: 'List', value: 'list', icon: 'pi pi-list' },
-]
 
 // Methods
 const loadArticles = () => {
@@ -98,8 +96,8 @@ const loadArticles = () => {
     page: currentPage.value,
     per_page: perPage.value,
     search: searchQuery.value || undefined,
-    sort_by: sortBy.value,
-    sort_order: sortOrder.value,
+    sort_by: selectedSort.value.field,
+    sort_order: selectedSort.value.order,
     access_tier: accessTierFilter.value !== 'all' ? accessTierFilter.value : undefined,
     category: categoryFilter.value !== 'all' ? categoryFilter.value : undefined,
   }
@@ -279,7 +277,7 @@ let searchTimeout: ReturnType<typeof setTimeout>
           <!-- Filters -->
           <div class="flex items-center gap-4">
             <Dropdown
-              v-model="sortBy"
+              v-model="selectedSort"
               :options="sortOptions"
               optionLabel="label"
               optionValue="value"

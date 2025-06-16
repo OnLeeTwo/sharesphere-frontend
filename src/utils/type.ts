@@ -81,7 +81,6 @@ export interface ApiVideoResponse {
   total_pages: number
 }
 
-// Define Article type based on your existing Video type structure
 interface Author {
   id: number
   username: string

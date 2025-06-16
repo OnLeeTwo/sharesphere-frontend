@@ -2,6 +2,9 @@
 import { computed } from 'vue'
 import Card from 'primevue/card'
 import Button from 'primevue/button'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const props = defineProps<{
   video: {
@@ -49,7 +52,13 @@ const hasAccess = computed(() => {
         <p class="text-sm text-gray-700 mb-1">
           This video is for <strong>{{ video.access_tier }}</strong> users
         </p>
-        <Button label="Upgrade Tier" icon="pi pi-arrow-up" class="mt-2" severity="secondary" />
+        <Button
+          @click="router.push('/upgrade')"
+          label="Upgrade Tier"
+          icon="pi pi-arrow-up"
+          class="mt-2"
+          severity="secondary"
+        />
       </div>
     </template>
   </Card>

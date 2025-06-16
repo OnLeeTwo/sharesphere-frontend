@@ -13,6 +13,8 @@ import Divider from 'primevue/divider'
 import IconFacebook from './icons/IconFacebook.vue'
 import IconGoogle from './icons/IconGoogle.vue'
 
+const apiUrl = import.meta.env.VITE_API_URL
+
 const router = useRouter()
 const auth = useAuthStore()
 
@@ -31,7 +33,6 @@ const onSubmit = async (values: GenericObject) => {
     auth.setLoginResponse(response)
     router.push('/dashboard')
   } catch (err) {
-    // Optionally show an error toast/message here
     console.error('Login failed', err)
   }
 }
@@ -41,11 +42,11 @@ const goToRegister = (): void => {
 }
 
 const redirectToGoogle = () => {
-  window.location.href = 'http://localhost:3000/api/auth/google'
+  window.location.href = `${apiUrl}/auth/google`
 }
 
 const redirectToFacebook = () => {
-  window.location.href = 'http://localhost:3000/api/auth/facebook'
+  window.location.href = `${apiUrl}/auth/facebook`
 }
 </script>
 <template>

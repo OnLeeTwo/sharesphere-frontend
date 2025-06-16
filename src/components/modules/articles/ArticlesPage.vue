@@ -43,7 +43,6 @@ onMounted(() => {
   setupScrollProgress()
 })
 
-// Mock API function for single article
 const fetchArticle = async (id: string) => {
   loading.value = true
   try {
@@ -186,7 +185,7 @@ const readRelatedArticle = (targetArticle: Article) => {
     })
     return
   }
-  router.push(`/articles/${targetArticle.id}`)
+  router.push(`/articles/view/${targetArticle.id}`)
 }
 
 const shareArticle = () => {

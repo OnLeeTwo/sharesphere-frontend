@@ -132,7 +132,7 @@ const goToVideo = (videoItem: Video) => {
     })
     return
   }
-  router.push(`/videos/${videoItem.id}`)
+  router.push(`/videos/view/${videoItem.id}`)
 }
 
 const goBack = () => {
