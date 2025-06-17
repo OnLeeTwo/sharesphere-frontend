@@ -1,6 +1,7 @@
 # 📘 ContentShare Frontend
 
 ContentShare is a Vue 3 frontend application that allows users to register, log in (via email/password or OAuth), and access content based on their subscription tier: Free, Basic, or Premium.
+Apps Demo: [Click here](https://sharesphere-owent.vercel.app/)
 
 ## 🛠 Tech Stack
 
