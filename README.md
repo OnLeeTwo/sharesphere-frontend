@@ -1,39 +1,149 @@
-# sharesphere-frontend
+# 📘 ContentShare Frontend
 
-This template should help get you started developing with Vue 3 in Vite.
+ContentShare is a Vue 3 frontend application that allows users to register, log in (via email/password or OAuth), and access content based on their subscription tier: Free, Basic, or Premium.
 
-## Recommended IDE Setup
+## 🛠 Tech Stack
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- **Vue 3** + Composition API
+- **PrimeVue** – UI Components
+- **vee-validate** + **Yup** – Form validation
+- **Pinia** – State management
+- **vue-router** – Routing
+- **Tailwind CSS** – Utility-first styling
 
-## Type Support for `.vue` Imports in TS
+---
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+## 📂 Project Structure
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-pnpm install
+```
+src/
+├── assets/               # Static assets (e.g. logo, images)
+├── components/           # Reusable Vue components (Navbar, Cards, etc.)
+├── pages/                # Page views (Login, Register, Home)
+├── router/               # Vue Router setup
+│   └── index.ts
+├── services/             # API service files (authService.ts, etc.)
+├── stores/               # Pinia stores (authStore.ts)
+├── utils/                # Utility types/functions
+├── App.vue
+└── main.ts
 ```
 
-### Compile and Hot-Reload for Development
+---
 
-```sh
-pnpm dev
+## 🔐 Authentication
+
+### JWT Login
+
+- User logs in or registers and receives a JWT.
+- `authStore.setToken(token)` decodes and stores user info from the token.
+
+### OAuth Login
+
+- OAuth redirects to `/oauth-success?token=...`
+- The token is set using `authStore.setToken()`.
+- Optionally fetches `/profile` to enrich user data.
+
+---
+
+## 🔧 State Management (Pinia)
+
+### `authStore.ts`
+
+```ts
+state: {
+  token: string,
+  user: JwtPayload | OAuthPayload | null,
+},
+getters: {
+  isLoggedIn: (state) => !!state.user,
+  userTier: (state) => state.user?.tier ?? 'free',
+},
+actions: {
+  setToken(token: string),
+  setLoginResponse({ token, user }),
+  logout(),
+},
 ```
 
-### Type-Check, Compile and Minify for Production
+---
 
-```sh
-pnpm build
+## ✅ Form Validation
+
+Uses `vee-validate` and `yup` schemas.
+
+```vue
+<Form :validation-schema="schema" v-slot="{ handleSubmit }">
+  <form @submit.prevent="handleSubmit(onSubmit)">
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+---
 
-```sh
-pnpm lint
+## 🧭 Routing
+
+Defined in `src/router/index.ts`:
+
+```ts
+const routes = [
+  { path: "/", component: HomePage },
+  { path: "/login", component: LoginPage },
+  { path: "/register", component: RegisterPage },
+  { path: "/oauth-success", component: OAuthSuccess },
+];
 ```
+
+Handles token extraction from query params in OAuth flow.
+
+---
+
+## 🎨 UI Components
+
+### PrimeVue
+
+- `InputText`, `Password`, `Checkbox`, `RadioButton`, `Button`
+- Combined with Tailwind CSS for custom styling
+
+### Navbar
+
+- Dynamic based on `authStore.isLoggedIn`
+- Displays login/register or profile/avatar
+
+---
+
+## 🌐 Favicon Setup
+
+Put your favicon inside the `public/` folder. Example:
+
+```html
+<!-- public/index.html -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+```
+
+---
+
+## 🚀 Deployment
+
+You can deploy the app using services like **Vercel**, **Netlify**, or **GitHub Pages**.
+
+### Example: Vercel
+
+1. Push your code to GitHub
+2. Go to [vercel.com](https://vercel.com)
+3. Import your project
+4. It will auto-detect as a Vite + Vue app
+5. Set `vite.config.ts` properly if base path is needed
+
+---
+
+## 🧪 Future Enhancements
+
+- Protect routes based on login state
+- Profile page with avatar editing
+- Upgrade subscription tier
+- Auto-refresh token / session expiration handling
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
